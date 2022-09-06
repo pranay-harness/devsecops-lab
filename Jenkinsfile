@@ -166,6 +166,7 @@ pipeline {
          withCredentials([string(credentialsId: 'mysqlvault', variable: 'mysqlvault')]){
              sh '''
              export VAULT_ADDR="http://`hostname -I | awk '{print $1}'`:8200"
+	     echo $mysqlvault
              docker run -d -p 8060:8080 --link prodmysqldb -e MYSQL_DB_USER=${MYSQL_DB_USER} \
                  -e VAULT_TOKEN_MYSQL=${mysqlvault} -e VAULT_ADDR=${VAULT_ADDR} -e MYSQL_JDBC_URL=${MYSQL_PRODUCTION_URL} \
                  -e MYSQL_DB_NAME=${MYSQL_DB_NAME}  -e VAULT_PATH_MYSQL=${VAULT_PATH_MYSQL} \
